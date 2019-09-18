@@ -6,7 +6,7 @@
 
     <groupId>com.blockware.spring-boot</groupId>
     <artifactId>sqldb-postgresql</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
 
     <licenses>
         <license>
@@ -70,7 +70,7 @@
         <dependency>
             <groupId>com.blockware.spring-boot</groupId>
             <artifactId>spring-boot</artifactId>
-            <version>[0.0.4,0.1.0)</version>
+            <version>0.0.5</version>
         </dependency>
     </dependencies>
 

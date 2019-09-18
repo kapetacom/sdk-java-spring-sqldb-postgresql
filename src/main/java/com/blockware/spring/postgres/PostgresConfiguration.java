@@ -38,6 +38,8 @@ public class PostgresConfiguration {
 
         String jdbcBaseUrl = String.format("jdbc:postgresql://%s:%s", info.getHost(), info.getPort());
 
+        log.info("Connecting to postgres server: {}", jdbcBaseUrl);
+
         String jdbcUrl = String.format("%s/%s", jdbcBaseUrl, getDatabaseName());
 
         final DataSourceBuilder<?> builder = DataSourceBuilder.create();
