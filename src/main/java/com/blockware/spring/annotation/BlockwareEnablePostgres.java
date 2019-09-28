@@ -1,6 +1,6 @@
 package com.blockware.spring.annotation;
 
-import com.blockware.spring.postgres.PostgresConfiguration;
+import com.blockware.spring.postgres.AbstractPostgresConfig;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -9,8 +9,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import({
-    PostgresConfiguration.class
-})
 public @interface BlockwareEnablePostgres {
 }
