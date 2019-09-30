@@ -6,14 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.Optional;
 
 @Slf4j
-public class PostgresConfiguration {
+abstract public class AbstractPostgresConfig {
     private static final String RESOURCE_TYPE = "sqldb.blockware.com/v1/postgresql";
 
     private static final String PORT_TYPE = "postgres";
@@ -24,37 +23,37 @@ public class PostgresConfiguration {
     @Autowired
     private BlockwareClusterService blockwareClusterService;
 
-    private String getDatabaseName() {
-        return applicationName;
+    private final String resourceName;
+
+    public AbstractPostgresConfig(String resourceName) {
+        this.resourceName = resourceName;
     }
 
     @Bean
-    @Primary
     public DataSource dataSource() {
 
-        final BlockwareClusterService.ResourceInfo info = blockwareClusterService.getResourceInfo(RESOURCE_TYPE, PORT_TYPE);
+        final BlockwareClusterService.ResourceInfo info = blockwareClusterService.getResourceInfo(RESOURCE_TYPE, PORT_TYPE, resourceName);
         Optional<String> dbUsername = Optional.ofNullable(info.getCredentials().get("username"));
         Optional<String> dbPassword = Optional.ofNullable(info.getCredentials().get("password"));
 
+        String databaseName = String.valueOf(info.getOptions().getOrDefault("dbName", resourceName));
+
         String jdbcBaseUrl = String.format("jdbc:postgresql://%s:%s", info.getHost(), info.getPort());
 
-        log.info("Connecting to postgres server: {}", jdbcBaseUrl);
+        log.info("Connecting to postgres server: {} for database: {}", jdbcBaseUrl, databaseName);
 
-        String jdbcUrl = String.format("%s/%s", jdbcBaseUrl, getDatabaseName());
+        String jdbcUrl = String.format("%s/%s", jdbcBaseUrl, databaseName);
 
         final DataSourceBuilder<?> builder = DataSourceBuilder.create();
 
         builder.url(jdbcUrl);
 
-        if (dbUsername.isPresent()) {
-            builder.username(dbUsername.get())
-                    .password(dbPassword.orElse(""));
-        }
-
+        dbUsername.ifPresent(s -> builder.username(s)
+                .password(dbPassword.orElse("")));
 
         try {
             ensureDatabase(jdbcBaseUrl,
-                getDatabaseName(),
+                databaseName,
                 dbUsername.orElse(null),
                 dbPassword.orElse(null)
             );
