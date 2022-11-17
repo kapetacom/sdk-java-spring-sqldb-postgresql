@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Slf4j
 abstract public class AbstractPostgresConfig {
-    private static final String RESOURCE_TYPE = "sqldb.blockware.com/v1/postgresql";
+    private static final String RESOURCE_TYPE = "blockware/resource-type-postgresql";
 
     private static final String PORT_TYPE = "postgres";
 
