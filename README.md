@@ -1,1 +1,1 @@
-# PostgreSQL support for Blockware Spring Boot SDK
+# PostgreSQL support for Kapeta Spring Boot SDK
