@@ -1,4 +1,4 @@
-package com.blockware.spring.postgres;
+package com.kapeta.spring.postgres;
 
 import com.blockware.spring.cluster.BlockwareClusterService;
 import lombok.extern.slf4j.Slf4j;
