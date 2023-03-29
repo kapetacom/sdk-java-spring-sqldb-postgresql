@@ -1,6 +1,6 @@
 package com.kapeta.spring.postgres;
 
-import com.blockware.spring.cluster.BlockwareClusterService;
+import com.kapeta.spring.cluster.KapetaClusterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +21,7 @@ abstract public class AbstractPostgresConfig {
     private String applicationName;
 
     @Autowired
-    private BlockwareClusterService blockwareClusterService;
+    private KapetaClusterService KapetaClusterService;
 
     private final String resourceName;
 
@@ -32,7 +32,7 @@ abstract public class AbstractPostgresConfig {
     @Bean
     public DataSource dataSource() {
 
-        final BlockwareClusterService.ResourceInfo info = blockwareClusterService.getResourceInfo(RESOURCE_TYPE, PORT_TYPE, resourceName);
+        final KapetaClusterService.ResourceInfo info = KapetaClusterService.getResourceInfo(RESOURCE_TYPE, PORT_TYPE, resourceName);
         Optional<String> dbUsername = Optional.ofNullable(info.getCredentials().get("username"));
         Optional<String> dbPassword = Optional.ofNullable(info.getCredentials().get("password"));
 
