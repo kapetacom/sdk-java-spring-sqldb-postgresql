@@ -9,7 +9,7 @@
     <version>0.0.8</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>REST resource support for Kapeta Spring Boot SDK</description>
+    <description>PostgreSQL support for Kapeta Spring Boot SDK</description>
     <url>https://kapeta.com</url>
 
     <licenses>
