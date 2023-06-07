@@ -8,6 +8,10 @@
     <artifactId>sqldb-postgresql</artifactId>
     <version>0.0.8</version>
 
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>REST resource support for Kapeta Spring Boot SDK</description>
+    <url>https://kapeta.com</url>
+
     <licenses>
         <license>
             <name>MIT License</name>
@@ -15,6 +19,20 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <name>Kapeta Engineering</name>
+            <email>engineering@kapeta.com</email>
+            <organization>Kapeta</organization>
+            <organizationUrl>https://kapeta.com</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/kapetacom/sdk-java-spring-sqldb-postgresql#readme</url>
+        <connection>git+https://github.com/kapetacom/sdk-java-spring-sqldb-postgresql.git</connection>
+    </scm>
 
     <distributionManagement>
         <repository>
@@ -71,11 +89,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <scm>
-        <url>https://github.com/kapetacom/sdk-java-spring-sqldb-postgresql#readme</url>
-        <connection>git+https://github.com/kapetacom/sdk-java-spring-sqldb-postgresql.git</connection>
-    </scm>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
