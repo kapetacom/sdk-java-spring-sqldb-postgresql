@@ -1,9 +1,10 @@
 package com.kapeta.spring.postgres;
 
-import com.kapeta.spring.cluster.KapetaClusterService;
+import com.kapeta.spring.config.providers.KapetaConfigurationProvider;
 import lombok.extern.slf4j.Slf4j;
+import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.Location;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 
@@ -17,11 +18,8 @@ abstract public class AbstractPostgresConfig {
 
     private static final String PORT_TYPE = "postgres";
 
-    @Value("${spring.application.name}")
-    private String applicationName;
-
     @Autowired
-    private KapetaClusterService KapetaClusterService;
+    private KapetaConfigurationProvider configurationProvider;
 
     private final String resourceName;
 
@@ -29,10 +27,21 @@ abstract public class AbstractPostgresConfig {
         this.resourceName = resourceName;
     }
 
+    @Bean(initMethod = "migrate")
+    public Flyway flyway(DataSource dataSource) {
+        var location = new Location("db/migrations/" + resourceName);
+        log.info("Migrations for Postgres resource: {} should be placed here: {}", resourceName, location);
+        return new Flyway(Flyway.configure()
+                .baselineOnMigrate(true)
+                .locations(location)
+                .dataSource(dataSource)
+        );
+    }
+
     @Bean
     public DataSource dataSource() {
 
-        final KapetaClusterService.ResourceInfo info = KapetaClusterService.getResourceInfo(RESOURCE_TYPE, PORT_TYPE, resourceName);
+        final KapetaConfigurationProvider.ResourceInfo info = configurationProvider.getResourceInfo(RESOURCE_TYPE, PORT_TYPE, resourceName);
         Optional<String> dbUsername = Optional.ofNullable(info.getCredentials().get("username"));
         Optional<String> dbPassword = Optional.ofNullable(info.getCredentials().get("password"));
 
