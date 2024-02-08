@@ -6,6 +6,7 @@
 package com.kapeta.spring.postgres;
 
 import com.kapeta.spring.config.providers.KapetaConfigurationProvider;
+import com.kapeta.spring.config.providers.types.ResourceInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.Location;
@@ -46,7 +47,7 @@ abstract public class AbstractPostgresConfig {
     @Bean
     public DataSource dataSource() {
 
-        final KapetaConfigurationProvider.ResourceInfo info = configurationProvider.getResourceInfo(RESOURCE_TYPE, PORT_TYPE, resourceName);
+        final ResourceInfo info = configurationProvider.getResourceInfo(RESOURCE_TYPE, PORT_TYPE, resourceName);
         Optional<String> dbUsername = Optional.ofNullable(info.getCredentials().get("username"));
         Optional<String> dbPassword = Optional.ofNullable(info.getCredentials().get("password"));
 
